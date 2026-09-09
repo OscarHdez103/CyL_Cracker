@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>Cifras y Letras Cracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Juego de cifras</p>
+        <h1>Cifras y Letras Cracker</h1>
+        <p class="subtitle">Juega una partida o deja que el cracker busque la mejor solución.</p>
+      </div>
+    </header>
+
+    <main>
+      <nav class="tabs" aria-label="Secciones principales">
+        <button class="tab-button active" data-tab="play" type="button">Jugar</button>
+        <button class="tab-button" data-tab="crack" type="button">Crackear</button>
+      </nav>
+
+      <section id="play" class="tab-panel active" aria-label="Jugar">
+        <div class="page-grid">
+          <section class="card setup-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-kicker">Preparar partida</p>
+                <h2>Elige objetivo y números</h2>
+              </div>
+              <button id="play-random" class="button ghost" type="button">Aleatorio</button>
+            </div>
+
+            <label class="field-label" for="play-objective">Objetivo</label>
+            <input id="play-objective" class="objective-input" type="number" inputmode="numeric" min="100" max="999" value="500">
+
+            <div class="field-row">
+              <span class="field-label">Números</span>
+              <span id="play-count" class="counter">0 / 6</span>
+            </div>
+            <div id="play-slots" class="number-slots" aria-label="Números elegidos"></div>
+
+            <div id="play-picker" class="number-picker" aria-label="Selector de números"></div>
+
+            <div class="button-row">
+              <button id="play-clear" class="button secondary" type="button">Borrar</button>
+              <button id="play-start" class="button primary" type="button">Empezar partida</button>
+            </div>
+            <p id="play-setup-message" class="message" role="status"></p>
+          </section>
+
+          <section class="card game-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-kicker">Partida</p>
+                <h2 id="game-title">Aún no iniciada</h2>
+              </div>
+              <button id="game-restart" class="button ghost" type="button" disabled>Reiniciar</button>
+            </div>
+
+            <div class="target-box">
+              <span>Objetivo</span>
+              <strong id="game-objective">—</strong>
+            </div>
+
+            <p class="field-label">Números disponibles</p>
+            <div id="game-numbers" class="game-numbers empty-state">Empieza una partida para jugar.</div>
+
+            <div class="operation-builder">
+              <button id="operand-a" class="operand-box" type="button" disabled>Primer número</button>
+
+              <div class="operation-buttons" aria-label="Operaciones">
+                <button class="operation-button" data-operation="+" type="button" disabled>+</button>
+                <button class="operation-button" data-operation="-" type="button" disabled>−</button>
+                <button class="operation-button" data-operation="*" type="button" disabled>×</button>
+                <button class="operation-button" data-operation="/" type="button" disabled>÷</button>
+              </div>
+
+              <button id="operand-b" class="operand-box" type="button" disabled>Segundo número</button>
+            </div>
+
+            <button id="calculate-action" class="button primary full" type="button" disabled>Calcular</button>
+            <p id="game-message" class="message" role="status"></p>
+
+            <div class="history-block">
+              <div class="field-row">
+                <span class="field-label">Operaciones realizadas</span>
+                <span id="game-steps" class="counter">0</span>
+              </div>
+              <ol id="game-history" class="history-list"></ol>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="crack" class="tab-panel" aria-label="Crackear">
+        <div class="page-grid">
+          <section class="card setup-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-kicker">Cracker</p>
+                <h2>Introduce el reto</h2>
+              </div>
+              <button id="crack-random" class="button ghost" type="button">Aleatorio</button>
+            </div>
+
+            <label class="field-label" for="crack-objective">Objetivo</label>
+            <input id="crack-objective" class="objective-input" type="number" inputmode="numeric" min="100" max="999" value="500">
+
+            <div class="field-row">
+              <span class="field-label">Números</span>
+              <span id="crack-count" class="counter">0 / 6</span>
+            </div>
+            <div id="crack-slots" class="number-slots" aria-label="Números elegidos para crackear"></div>
+
+            <div id="crack-picker" class="number-picker" aria-label="Selector rápido de números"></div>
+
+            <div class="button-row">
+              <button id="crack-clear" class="button secondary" type="button">Borrar</button>
+              <button id="crack-start" class="button primary" type="button">Buscar solución</button>
+            </div>
+            <p id="crack-message" class="message" role="status"></p>
+          </section>
+
+          <section class="card result-card">
+            <div class="card-heading">
+              <div>
+                <p class="section-kicker">Resultado</p>
+                <h2 id="crack-title">Sin calcular</h2>
+              </div>
+              <span id="crack-badge" class="status-badge">—</span>
+            </div>
+
+            <div class="result-summary">
+              <div>
+                <span>Mejor resultado</span>
+                <strong id="crack-result">—</strong>
+              </div>
+              <div>
+                <span>Diferencia</span>
+                <strong id="crack-difference">—</strong>
+              </div>
+              <div>
+                <span>Pasos</span>
+                <strong id="crack-steps">—</strong>
+              </div>
+            </div>
+
+            <p class="field-label">Solución</p>
+            <ol id="crack-history" class="history-list result-history">
+              <li class="muted-item">Introduce seis números y pulsa “Buscar solución”.</li>
+            </ol>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
