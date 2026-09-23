@@ -487,15 +487,43 @@ function renderCrackResult(result, objective) {
   });
 }
 
+function activateTab(tabName) {
+  document.querySelectorAll(".tab-button").forEach((item) => {
+    item.classList.toggle("active", item.dataset.tab === tabName);
+  });
+  document.querySelectorAll(".tab-panel").forEach((panel) => {
+    panel.classList.toggle("active", panel.id === tabName);
+  });
+}
+
 function setupTabs() {
   document.querySelectorAll(".tab-button").forEach((button) => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".tab-button").forEach((item) => item.classList.remove("active"));
-      document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("active"));
-      button.classList.add("active");
-      $(button.dataset.tab).classList.add("active");
-    });
+    button.addEventListener("click", () => activateTab(button.dataset.tab));
   });
+}
+
+function setCrackInputs(objective, inputs) {
+  state.crackInputs = [...inputs];
+  $("crack-objective").value = objective;
+  renderInputArea("crack");
+}
+
+function solveGame() {
+  const objective = Number($("play-objective").value);
+
+  if (!validObjective(objective)) {
+    setMessage($("play-setup-message"), "El objetivo debe ser un número entero entre 100 y 999.", "error");
+    return;
+  }
+
+  if (state.playInputs.length !== INPUT_COUNT) {
+    setMessage($("play-setup-message"), "Debes elegir exactamente 6 números.", "error");
+    return;
+  }
+
+  setCrackInputs(objective, state.playInputs);
+  activateTab("crack");
+  // runCracker();
 }
 
 function init() {
@@ -510,6 +538,7 @@ function init() {
   $("crack-clear").addEventListener("click", () => clearInputs("crack"));
   $("play-random").addEventListener("click", () => fillRandom("play"));
   $("crack-random").addEventListener("click", () => fillRandom("crack"));
+  $("play-solve").addEventListener("click", solveGame);
   $("play-start").addEventListener("click", startGame);
   $("game-restart").addEventListener("click", restartGame);
   $("calculate-action").addEventListener("click", calculateGameAction);

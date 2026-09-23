@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111827">
-  <title>Cifras y Letras Cracker</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Games and Crackers</title>
+  <link rel="stylesheet" href="shared/shell.css">
+  <link rel="stylesheet" href="sections/cifras/cifras.css">
 </head>
-<body>
+<body data-section="cifras">
   <div class="app-shell">
     <header class="site-header">
       <div>
@@ -47,6 +48,7 @@
 
             <div class="button-row">
               <button id="play-clear" class="button secondary" type="button">Borrar</button>
+              <button id="play-solve" class="button secondary" type="button">Resolver partida</button>
               <button id="play-start" class="button primary" type="button">Empezar partida</button>
             </div>
             <p id="play-setup-message" class="message" role="status"></p>
@@ -159,6 +161,7 @@
     </main>
   </div>
 
-  <script src="app.js"></script>
+  <script src="shared/shell.js"></script>
+  <script src="sections/cifras/cifras.js"></script>
 </body>
 </html>
